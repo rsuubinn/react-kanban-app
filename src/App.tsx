@@ -9,6 +9,7 @@ import {
 import { darkTheme } from "./theme";
 import { useRecoilState } from "recoil";
 import { toDoState } from "./atoms";
+import DraggbleCard from "./Components/DraggbleCard";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -88,13 +89,6 @@ const Board = styled.div`
   min-height: 200px;
 `;
 
-const Card = styled.div`
-  background-color: ${(props) => props.theme.cardColor};
-  border-radius: 5px;
-  margin-bottom: 5px;
-  padding: 10px;
-`;
-
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
   const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
@@ -116,17 +110,7 @@ function App() {
               {(provided) => (
                 <Board ref={provided.innerRef} {...provided.droppableProps}>
                   {toDos.map((toDo, index) => (
-                    <Draggable key={toDo} draggableId={toDo} index={index}>
-                      {(provided) => (
-                        <Card
-                          ref={provided.innerRef}
-                          {...provided.dragHandleProps}
-                          {...provided.draggableProps}
-                        >
-                          {toDo}
-                        </Card>
-                      )}
-                    </Draggable>
+                    <DraggbleCard key={toDo} toDo={toDo} index={index} />
                   ))}
                   {provided.placeholder}
                 </Board>
