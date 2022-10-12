@@ -1,7 +1,14 @@
 import React from "react";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
 import { darkTheme } from "./theme";
+import { useRecoilState } from "recoil";
+import { toDoState } from "./atoms";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -88,10 +95,9 @@ const Card = styled.div`
   padding: 10px;
 `;
 
-const toDos = ["a", "b", "c", "d", "e", "f"];
-
 function App() {
-  const onDragEnd = () => {};
+  const [toDos, setToDos] = useRecoilState(toDoState);
+  const onDragEnd = ({ destination, source }: DropResult) => {};
   return (
     <ThemeProvider theme={darkTheme}>
       <GlobalStyle />
@@ -102,7 +108,7 @@ function App() {
               {(provided) => (
                 <Board ref={provided.innerRef} {...provided.droppableProps}>
                   {toDos.map((toDo, index) => (
-                    <Draggable draggableId={toDo} index={index}>
+                    <Draggable key={index} draggableId={toDo} index={index}>
                       {(provided) => (
                         <Card
                           ref={provided.innerRef}
