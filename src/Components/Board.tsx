@@ -8,12 +8,12 @@ interface IBoard {
 }
 const Wrapper = styled.div`
   background-color: ${(props) => props.theme.boardColor};
-  padding: 20px 10px;
   padding-top: 30px;
   border-radius: 5px;
   min-height: 200px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 `;
 
 const Title = styled.h2`
@@ -31,11 +31,13 @@ interface IArea {
 const Area = styled.div<IArea>`
   background-color: ${(props) =>
     props.isDraggingOver
-      ? "pink"
+      ? "#dfe6e9"
       : props.isDraggingFromThisWith
-      ? "red"
-      : "blue"};
+      ? "#b2bec3"
+      : "transparent"};
   flex-grow: 1;
+  transition: background-color 0.2s ease-in-out;
+  padding: 20px;
 `;
 
 function Board({ toDos, boardId }: IBoard) {
