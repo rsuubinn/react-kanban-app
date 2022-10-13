@@ -14,18 +14,28 @@ const Wrapper = styled.div`
   min-height: 200px;
 `;
 
+const Title = styled.h2`
+  font-size: 18px;
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 10px;
+`;
+
 function Board({ toDos, boardId }: IBoard) {
   return (
-    <Droppable droppableId={boardId}>
-      {(provided) => (
-        <Wrapper ref={provided.innerRef} {...provided.droppableProps}>
-          {toDos.map((toDo, index) => (
-            <DraggbleCard key={toDo} toDo={toDo} index={index} />
-          ))}
-          {provided.placeholder}
-        </Wrapper>
-      )}
-    </Droppable>
+    <Wrapper>
+      <Title>{boardId}</Title>
+      <Droppable droppableId={boardId}>
+        {(provided) => (
+          <div ref={provided.innerRef} {...provided.droppableProps}>
+            {toDos.map((toDo, index) => (
+              <DraggbleCard key={toDo} toDo={toDo} index={index} />
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </Wrapper>
   );
 }
 

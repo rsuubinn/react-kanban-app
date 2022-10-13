@@ -15,7 +15,6 @@ interface IDraggbleCard {
 }
 
 function DraggbleCard({ toDo, index }: IDraggbleCard) {
-  console.log(toDo);
   return (
     <Draggable draggableId={toDo} index={index}>
       {(provided) => (
