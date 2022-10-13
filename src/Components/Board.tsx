@@ -12,6 +12,8 @@ const Wrapper = styled.div`
   padding-top: 30px;
   border-radius: 5px;
   min-height: 200px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Title = styled.h2`
@@ -21,18 +23,38 @@ const Title = styled.h2`
   margin-bottom: 10px;
 `;
 
+interface IArea {
+  isDraggingOver: boolean;
+  isDraggingFromThisWith: boolean;
+}
+
+const Area = styled.div<IArea>`
+  background-color: ${(props) =>
+    props.isDraggingOver
+      ? "pink"
+      : props.isDraggingFromThisWith
+      ? "red"
+      : "blue"};
+  flex-grow: 1;
+`;
+
 function Board({ toDos, boardId }: IBoard) {
   return (
     <Wrapper>
       <Title>{boardId}</Title>
       <Droppable droppableId={boardId}>
-        {(provided) => (
-          <div ref={provided.innerRef} {...provided.droppableProps}>
+        {(provided, snapshot) => (
+          <Area
+            isDraggingOver={snapshot.isDraggingOver}
+            isDraggingFromThisWith={Boolean(snapshot.draggingFromThisWith)}
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
             {toDos.map((toDo, index) => (
               <DraggbleCard key={toDo} toDo={toDo} index={index} />
             ))}
             {provided.placeholder}
-          </div>
+          </Area>
         )}
       </Droppable>
     </Wrapper>
